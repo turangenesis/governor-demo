@@ -93,8 +93,14 @@
       <div style="margin-top:.6rem">
         <label>Anthropic API key (stays in your browser — sent only to api.anthropic.com)</label>
         <input id="key" type="password" placeholder="sk-ant-…  (leave blank for template drafts)">
+        <div style="margin-top:.6rem"><label>Model (any key works with any model)</label>
+          <select id="model" style="width:100%;padding:.5rem .6rem;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;font-size:.9rem">
+            <option value="claude-haiku-4-5">Claude Haiku 4.5 — cheapest (~a fraction of a cent)</option>
+            <option value="claude-sonnet-5">Claude Sonnet 5 — balanced</option>
+            <option value="claude-opus-4-8">Claude Opus 4.8 — best, priciest</option>
+          </select></div>
         <div class="hint">Your key is never stored or sent to this site's owner — the request goes
-          straight from your browser to Anthropic. Costs a few cents, billed to your key.</div>
+          straight from your browser to Anthropic, billed to your key. Haiku is plenty for a short email.</div>
       </div>
     </details>
     <div class="row">
@@ -185,11 +191,11 @@ async function ghSearch(query,limit){
 }
 // ---------- real Claude draft (browser → Anthropic, visitor's key) ----------
 const DRAFT_SYS="You are a sourcing agent writing a short, warm, specific cold-outreach email to a candidate about a role. Under 90 words. Human, not salesy. Return ONLY the email body text, no subject line, no preamble.";
-async function claudeDraft(c,role,company,key){
+async function claudeDraft(c,role,company,key,model){
   const prompt=`ROLE: ${role} at ${company}\nCANDIDATE: ${c.name}, ${c.title} at ${c.company} (seniority ${c.seniority}).\nWrite the outreach email body.`;
   const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
     headers:{"x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true","content-type":"application/json"},
-    body:JSON.stringify({model:"claude-opus-4-8",max_tokens:400,system:DRAFT_SYS,messages:[{role:"user",content:prompt}]})});
+    body:JSON.stringify({model:model||"claude-haiku-4-5",max_tokens:400,system:DRAFT_SYS,messages:[{role:"user",content:prompt}]})});
   if(!r.ok) throw new Error("Anthropic "+r.status);
   const d=await r.json(); const t=(d.content||[]).find(b=>b.type==="text");
   return {subject:"A role you might like",body:(t&&t.text||"").trim()};
@@ -234,7 +240,7 @@ const esc=s=>String(s==null?"":s).replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;","
 // ---------- run live ----------
 async function runLive(){
   const b={role:val("role"),tech:val("tech")||"python",loc:val("loc"),comp:val("comp")||"anthropic"};
-  const key=val("key").trim(); const company="Acme AI";
+  const key=val("key").trim(); const model=val("model"); const company="Acme AI";
   const comps=[b.comp]; const terrs=territories(b);
   setBusy(true);
   const agents=[];
@@ -248,7 +254,7 @@ async function runLive(){
         let draft;
         if(key && (t.flavor==="clean"||t.flavor==="competitor"||t.flavor==="exec")){
           status(`agent "${t.key}" — Claude writing email for ${c.name}…`);
-          try{draft=await claudeDraft(c,b.role,company,key);}catch(e){draft=flavorDraft(c,t.flavor,b.role,company);}
+          try{draft=await claudeDraft(c,b.role,company,key,model);}catch(e){draft=flavorDraft(c,t.flavor,b.role,company);}
         } else { draft=flavorDraft(c,t.flavor,b.role,company); }
         const g=govern(c,draft.body,comps);
         cands.push({...c,subject:draft.subject,body:draft.body,...g});
