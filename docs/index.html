@@ -26,44 +26,64 @@
   h1{font-size:clamp(2rem,5vw,3rem);line-height:1.05;margin:.4rem 0 .3rem;letter-spacing:-.02em}
   .lede{color:var(--muted);max-width:62ch;margin:0}
   .metrics{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem}
-  .metric{display:flex;flex-direction:column;gap:.1rem;padding:.55rem .9rem;border:1px solid var(--border);border-radius:11px;background:var(--surface);box-shadow:var(--shadow)}
-  .metric b{font-family:var(--mono);font-size:1.15rem;font-weight:600}
+  .metric{display:flex;flex-direction:column;gap:.1rem;padding:.55rem .9rem;border:1px solid var(--border);border-radius:11px;background:var(--surface);box-shadow:var(--shadow);min-width:92px}
+  .metric b{font-family:var(--mono);font-size:1.25rem;font-weight:600;transition:color .3s}
   .metric span{font-size:.7rem;color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
   .metric.good b{color:var(--auto)}
+
+  /* flow strip */
+  .flow{display:flex;align-items:stretch;gap:.4rem;margin-top:1.6rem;flex-wrap:wrap}
+  .step{flex:1;min-width:130px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.6rem .8rem;box-shadow:var(--shadow);opacity:.45;transition:opacity .4s,border-color .4s,transform .4s}
+  .step.active{opacity:1;border-color:var(--accent);transform:translateY(-2px)}
+  .step.done{opacity:1}
+  .step .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .step .t{font-weight:650;font-size:.9rem;margin-top:.1rem}
+
   .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.2rem;box-shadow:var(--shadow);margin-top:1.6rem}
   .panel h2{font-size:1.05rem;margin:0 0 .2rem}
   .panel .sub{color:var(--muted);font-size:.86rem;margin:0 0 1rem}
-  .grid{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
-  label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);margin-bottom:.25rem;font-family:var(--mono)}
-  input{width:100%;padding:.5rem .6rem;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;font-size:.9rem}
-  input:focus{outline:2px solid var(--accent);outline-offset:1px}
-  .row{display:flex;gap:.7rem;align-items:flex-end;flex-wrap:wrap;margin-top:.9rem}
-  button{font:inherit;font-weight:650;border:none;border-radius:10px;padding:.6rem 1.1rem;cursor:pointer;background:var(--accent);color:#fff}
+  .cta{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin-top:1.4rem}
+  button{font:inherit;font-weight:650;border:none;border-radius:10px;padding:.65rem 1.2rem;cursor:pointer;background:var(--accent);color:#fff}
   button:disabled{opacity:.5;cursor:progress}
   button.ghost{background:var(--surface2);color:var(--ink);border:1px solid var(--border)}
-  .hint{font-size:.78rem;color:var(--faint);margin-top:.5rem}
-  .keyrow{margin-top:.9rem}
-  details{margin-top:.6rem}
-  summary{cursor:pointer;font-size:.82rem;color:var(--accent2)}
+  .status{font-family:var(--mono);font-size:.82rem;color:var(--muted);min-height:1.2em;margin-top:.7rem}
+
+  .grid{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+  label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);margin-bottom:.25rem;font-family:var(--mono)}
+  input,select{width:100%;padding:.5rem .6rem;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;font-size:.9rem}
+  input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+  details{margin-top:.6rem} summary{cursor:pointer;font-size:.82rem;color:var(--accent2)}
   @media (prefers-color-scheme:dark){summary{color:var(--accent)}}
-  .status{font-family:var(--mono);font-size:.8rem;color:var(--muted);min-height:1.2em;margin-top:.6rem}
+  .hint{font-size:.78rem;color:var(--faint);margin-top:.5rem}
+
   .agents{display:grid;gap:.9rem;margin-top:1.6rem}
-  .agent{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .agent{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s}
+  .agent.show{opacity:1;transform:none}
   .agent .head{padding:.7rem 1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap}
   .agent .head .g{font-weight:650}
   .agent .head .n{font-family:var(--mono);font-size:.7rem;color:var(--faint)}
-  .cand{padding:.7rem 1rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:.3rem .8rem;align-items:start}
-  .cand:first-of-type{border-top:none}
+  .astat{font-family:var(--mono);font-size:.74rem;color:var(--accent2);display:flex;align-items:center;gap:.4rem}
+  @media (prefers-color-scheme:dark){.astat{color:var(--accent)}}
+  .astat.done{color:var(--faint)}
+  .spin{width:11px;height:11px;border:2px solid var(--accentsoft);border-top-color:var(--accent);border-radius:50%;display:inline-block;animation:sp .7s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.spin{animation:none}.agent{transition:none}}
+
+  .cand{padding:.7rem 1rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:.3rem .8rem;align-items:start;opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s}
+  .cand.show{opacity:1;transform:none}
   .cand .who{font-weight:600;font-size:.92rem}
   .cand .co{color:var(--muted);font-size:.8rem}
-  .cand .mail{grid-column:1/-1;font-size:.82rem;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .6rem;margin-top:.2rem;white-space:pre-wrap}
-  .pill{font-family:var(--mono);font-size:.68rem;padding:.16rem .5rem;border-radius:7px;font-weight:600;white-space:nowrap;height:fit-content}
-  .p-auto{color:var(--auto);background:var(--autosoft)} .p-esc{color:var(--esc);background:var(--escsoft)} .p-hold{color:var(--hold);background:var(--holdsoft)}
+  .cand .mail{grid-column:1/-1;font-size:.82rem;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .6rem;margin-top:.2rem;white-space:pre-wrap;max-height:0;overflow:hidden;transition:max-height .4s;padding-top:0;padding-bottom:0}
+  .cand.verdict .mail{max-height:260px;padding-top:.45rem;padding-bottom:.45rem}
+  .pill{font-family:var(--mono);font-size:.68rem;padding:.16rem .5rem;border-radius:7px;font-weight:600;white-space:nowrap;height:fit-content;opacity:0;transition:opacity .3s}
+  .cand.verdict .pill{opacity:1}
+  .p-auto{color:var(--auto);background:var(--autosoft)} .p-esc{color:var(--esc);background:var(--escsoft)} .p-hold{color:var(--hold);background:var(--holdsoft)} .p-wait{color:var(--faint);background:var(--surface2)}
   .reason{grid-column:1/-1;font-family:var(--mono);font-size:.7rem;color:var(--faint)}
-  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--border);color:var(--faint);font-size:.8rem;font-family:var(--mono)}
-  a{color:var(--accent2)} @media (prefers-color-scheme:dark){a{color:var(--accent)}}
+
   .banner{font-size:.8rem;padding:.5rem .8rem;border-radius:9px;background:var(--accentsoft);color:var(--accent2);margin-top:1rem;font-family:var(--mono)}
   @media (prefers-color-scheme:dark){.banner{color:var(--accent2)}}
+  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--border);color:var(--faint);font-size:.8rem;font-family:var(--mono)}
+  a{color:var(--accent2)} @media (prefers-color-scheme:dark){a{color:var(--accent)}}
 </style>
 </head>
 <body>
@@ -71,216 +91,228 @@
   <header>
     <div class="eyebrow">Oversight &amp; eval layer · autonomous recruiting agents</div>
     <h1>🛡️ The Governor</h1>
-    <p class="lede">Five autonomous agents source real engineers from GitHub for a hiring brief
-      and draft outreach. A deterministic Governor decides which sends a human must see. Edit the
-      brief to point the agents anywhere — it runs live in your browser.</p>
+    <p class="lede">One click fans out into five autonomous agents. Each sources real engineers
+      from GitHub for its own territory and drafts outreach — then a deterministic Governor
+      decides which sends a human must see. Watch it happen.</p>
     <div class="metrics" id="metrics"></div>
+    <div class="flow" id="flow">
+      <div class="step" data-s="1"><div class="k">Trigger</div><div class="t">📋 Hiring brief</div></div>
+      <div class="step" data-s="2"><div class="k">Fan out</div><div class="t">🤖 5 agents source &amp; draft</div></div>
+      <div class="step" data-s="3"><div class="k">Judge</div><div class="t">🛡️ Governor decides</div></div>
+      <div class="step" data-s="4"><div class="k">Prove</div><div class="t">📊 0 dangerous</div></div>
+    </div>
+    <div class="cta">
+      <button id="replay">▶ Run the demo</button>
+      <span class="banner" id="mode" style="margin-top:0">Cached run — no key, no network. Click ▶ to watch it.</span>
+    </div>
+    <div class="status" id="status"></div>
   </header>
 
+  <div class="agents" id="agents"></div>
+
   <div class="panel">
-    <h2>Try it — this is the trigger</h2>
-    <p class="sub">The brief directs where the agents search. Editing it runs the 5 agents live
-      against GitHub (free, no key needed). Add your own Anthropic API key to have real Claude
-      write the emails.</p>
+    <h2>Point it anywhere — edit the brief</h2>
+    <p class="sub">This is the trigger. Editing it runs the 5 agents <b>live</b> against GitHub in
+      your browser (free, no key). Add your own Anthropic key for real Claude-written emails.</p>
     <div class="grid">
       <div><label>Role</label><input id="role" value="Senior Backend Engineer"></div>
       <div><label>Tech / language</label><input id="tech" value="python"></div>
       <div><label>Location (optional)</label><input id="loc" value="london"></div>
       <div><label>Competitor to poach from</label><input id="comp" value="anthropic"></div>
     </div>
-    <details class="keyrow">
-      <summary>🔑 Optional: use your own Anthropic API key for real Claude-written emails</summary>
+    <details>
+      <summary>🔑 Optional: your own Anthropic API key for real Claude-written emails</summary>
       <div style="margin-top:.6rem">
-        <label>Anthropic API key (stays in your browser — sent only to api.anthropic.com)</label>
-        <input id="key" type="password" placeholder="sk-ant-…  (leave blank for template drafts)">
+        <label>API key (stays in your browser — sent only to api.anthropic.com)</label>
+        <input id="key" type="password" placeholder="sk-ant-…  (blank = template drafts)">
         <div style="margin-top:.6rem"><label>Model (any key works with any model)</label>
-          <select id="model" style="width:100%;padding:.5rem .6rem;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;font-size:.9rem">
+          <select id="model">
             <option value="claude-haiku-4-5">Claude Haiku 4.5 — cheapest (~a fraction of a cent)</option>
             <option value="claude-sonnet-5">Claude Sonnet 5 — balanced</option>
             <option value="claude-opus-4-8">Claude Opus 4.8 — best, priciest</option>
           </select></div>
-        <div class="hint">Your key is never stored or sent to this site's owner — the request goes
-          straight from your browser to Anthropic, billed to your key. Haiku is plenty for a short email.</div>
+        <div class="hint">Never stored or sent to this site's owner. Billed to your key. Haiku is plenty.</div>
       </div>
     </details>
-    <div class="row">
+    <div class="cta">
       <button id="run">▶ Run agents live</button>
-      <button id="reset" class="ghost">Reset to cached demo</button>
+      <button id="reset" class="ghost">Back to cached demo</button>
     </div>
-    <div class="status" id="status"></div>
   </div>
 
-  <div class="banner" id="mode">Showing the cached default run — no key, no network, instant.</div>
-  <div class="agents" id="agents"></div>
-
   <footer>
-    Governor = deterministic Python (ported to JS here) · agents source real GitHub profiles ·
+    Governor = deterministic Python (ported to JS) · agents source real GitHub profiles ·
     <a href="https://github.com/turangenesis/governor-demo">source</a>
   </footer>
 </div>
 
 <script>
+const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const sleep=ms=>RM?Promise.resolve():new Promise(r=>setTimeout(r,ms));
+const esc=s=>String(s==null?"":s).replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));
+const val=id=>document.getElementById(id).value;
+const status=m=>document.getElementById("status").textContent=m||"";
+
 // ---------- Governor (deterministic port of governor.py) ----------
-const ESCALATE=0.50, AUTO=0.25, HARD=0.80;
-const W={competitor_poach:0.60,exec_seniority:0.60,senior_seniority:0.25,low_draft_confidence:0.40,
-  agent_concern:0.25,poor_match:0.45,sensitive_content:0.60,pushy_content:0.55,too_short:0.15};
+const ESCALATE=0.50,AUTO=0.25,HARD=0.80;
+const W={competitor_poach:.60,exec_seniority:.60,senior_seniority:.25,low_draft_confidence:.40,agent_concern:.25,poor_match:.45,sensitive_content:.60,pushy_content:.55,too_short:.15};
 const SENSITIVE=["salary","compensation","visa","sponsorship","fired","laid off","medical"];
 const PUSHY=["act now","urgent","last chance","limited time","asap"];
 const norm=s=>(s||"").toLowerCase().replace(/[^a-z]/g,"");
-function isCompetitor(company,comps){const cn=norm(company);return cn&&comps.some(k=>norm(k)&&cn.includes(norm(k)));}
-function scoreSignals(c,body,comps){
-  const sig={}; const b=(body||"").toLowerCase();
-  if(isCompetitor(c.company,comps)) sig.competitor_poach=W.competitor_poach;
-  if(c.seniority==="exec") sig.exec_seniority=W.exec_seniority;
-  else if(c.seniority==="senior") sig.senior_seniority=W.senior_seniority;
-  if(c.match<0.6) sig.poor_match=W.poor_match*(0.6-c.match)/0.6;
-  if(SENSITIVE.some(t=>b.includes(t))) sig.sensitive_content=W.sensitive_content;
-  if(PUSHY.some(t=>b.includes(t))) sig.pushy_content=W.pushy_content;
-  if((body||"").length<60) sig.too_short=W.too_short;
-  return sig;
+const isComp=(co,cs)=>{const cn=norm(co);return cn&&cs.some(k=>norm(k)&&cn.includes(norm(k)));};
+function govern(c,body,cs){
+  const s={};const b=(body||"").toLowerCase();
+  if(isComp(c.company,cs))s.competitor_poach=W.competitor_poach;
+  if(c.seniority==="exec")s.exec_seniority=W.exec_seniority;else if(c.seniority==="senior")s.senior_seniority=W.senior_seniority;
+  if(c.match<0.6)s.poor_match=W.poor_match*(0.6-c.match)/0.6;
+  if(SENSITIVE.some(t=>b.includes(t)))s.sensitive_content=W.sensitive_content;
+  if(PUSHY.some(t=>b.includes(t)))s.pushy_content=W.pushy_content;
+  if((body||"").length<60)s.too_short=W.too_short;
+  const score=Math.min(1,Object.values(s).reduce((a,v)=>a+v,0));
+  const reasons=Object.entries(s).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k} (+${v.toFixed(2)})`);
+  let d; if(score>=HARD)d="escalate";else if(score<=AUTO)d="auto_send";else if(score>=ESCALATE)d="escalate";else d="auto_send";
+  return{decision:d,risk:Math.round(score*100)/100,reasons:reasons.slice(0,3).length?reasons.slice(0,3):["clearly low risk"]};
 }
-function govern(c,body,comps){
-  const sig=scoreSignals(c,body,comps);
-  const score=Math.min(1,Object.values(sig).reduce((a,b)=>a+b,0));
-  const reasons=Object.entries(sig).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k} (+${v.toFixed(2)})`);
-  let decision;
-  if(score>=HARD) decision="escalate";
-  else if(score<=AUTO) decision="auto_send";
-  else if(score>=ESCALATE) decision="escalate";
-  else decision="auto_send";
-  return {decision,risk:Math.round(score*100)/100,reasons:reasons.slice(0,3).length?reasons.slice(0,3):["clearly low risk"]};
-}
-// ---------- candidate mapping (port of discover.py heuristics) ----------
+// ---------- candidate mapping ----------
 const FIT=["python","backend","distributed","infrastructure","systems","platform","go","rust","api","cloud","kubernetes"];
-const EXECW=["vp","vice president","cto","chief","founder","head of engineering"];
-const SRW=["staff","principal","senior","lead","architect","head","director"];
-const JRW=["junior","intern","student","graduate"];
-function seniority(t){t=(t||"").toLowerCase();if(EXECW.some(w=>t.includes(w)))return"exec";if(SRW.some(w=>t.includes(w)))return"senior";if(JRW.some(w=>t.includes(w)))return"junior";return"mid";}
-function matchConf(p){const bio=(p.bio||"").toLowerCase();let s=0.45;s+=Math.min(FIT.filter(k=>bio.includes(k)).length,4)*0.08;if(p.company)s+=0.08;if((p.followers||0)>=100)s+=0.07;if(p.hireable)s+=0.10;return Math.round(Math.min(s,0.97)*100)/100;}
-function companyOf(p){const c=(p.company||"").trim().replace(/^@/,"");return c||"Independent / open source";}
-function toCand(p,role){const bio=p.bio||"";const title=(bio.split(".")[0]||"Software Engineer").slice(0,60);
-  return {name:p.name||p.login||"Unknown",company:companyOf(p),title:title||"Software Engineer",
-    seniority:seniority(title+" "+bio),match:matchConf(p)};}
+const EX=["vp","vice president","cto","chief","founder","head of engineering"],SR=["staff","principal","senior","lead","architect","head","director"],JR=["junior","intern","student","graduate"];
+const sen=t=>{t=(t||"").toLowerCase();return EX.some(w=>t.includes(w))?"exec":SR.some(w=>t.includes(w))?"senior":JR.some(w=>t.includes(w))?"junior":"mid";};
+const mc=p=>{const b=(p.bio||"").toLowerCase();let s=.45;s+=Math.min(FIT.filter(k=>b.includes(k)).length,4)*.08;if(p.company)s+=.08;if((p.followers||0)>=100)s+=.07;if(p.hireable)s+=.10;return Math.round(Math.min(s,.97)*100)/100;};
+const coOf=p=>{const c=(p.company||"").trim().replace(/^@/,"");return c||"Independent / open source";};
+const toCand=p=>{const bio=p.bio||"",t=(bio.split(".")[0]||"Software Engineer").slice(0,60);return{name:p.name||p.login||"Unknown",company:coOf(p),title:t||"Software Engineer",seniority:sen(t+" "+bio),match:mc(p)};};
 // ---------- drafting ----------
-function templateDraft(c,role,company){
-  const first=c.name.split(" ")[0];
-  return {subject:"A role you might like",
-    body:`Hi ${first}, I came across your work at ${c.company} and was genuinely impressed. `+
-      `We're building reliability infrastructure at ${company} and I think the ${role} role could be a great fit. `+
-      `Would you be open to a short call next week?`};
-}
-function flavorDraft(c,flavor,role,company){
-  const first=c.name.split(" ")[0];
-  if(flavor==="pushy") return {subject:"ACT NOW — last chance to join "+company,
-    body:`${first}, this is URGENT — reply ASAP. This is your LAST CHANCE to join ${company} for the ${role} role. Act now — limited time only!`};
-  if(flavor==="comp_forward") return {subject:"We can beat your salary + sort visa",
-    body:`Hi ${first}, we can beat your current salary and sort visa sponsorship fast for the ${role} role at ${company}. Heard your team had layoffs — let's talk.`};
-  return templateDraft(c,role,company);
-}
-// ---------- GitHub search (browser, free, no key) ----------
-async function ghSearch(query,limit){
-  const r=await fetch(`https://api.github.com/search/users?q=${encodeURIComponent(query)}&per_page=${Math.min(limit*3,30)}`,
-    {headers:{Accept:"application/vnd.github+json"}});
-  if(!r.ok) throw new Error("GitHub "+r.status+(r.status===403?" (rate limit — wait an hour or try fewer runs)":""));
-  const items=(await r.json()).items||[]; const out=[];
-  for(const it of items){ if(out.length>=limit) break;
-    try{ const p=await(await fetch(it.url,{headers:{Accept:"application/vnd.github+json"}})).json();
-      if(p.type!=="User"||!p.name) continue; out.push(p);}catch(e){}
-  }
+function tmpl(c,role,co){const f=c.name.split(" ")[0];return{subject:"A role you might like",body:`Hi ${f}, I came across your work at ${c.company} and was genuinely impressed. We're building reliability infrastructure at ${co} and I think the ${role} role could be a great fit. Would you be open to a short call next week?`};}
+function flavorDraft(c,fl,role,co){const f=c.name.split(" ")[0];
+  if(fl==="pushy")return{subject:"ACT NOW — last chance to join "+co,body:`${f}, this is URGENT — reply ASAP. This is your LAST CHANCE to join ${co} for the ${role} role. Act now — limited time only!`};
+  if(fl==="comp_forward")return{subject:"We can beat your salary + sort visa",body:`Hi ${f}, we can beat your current salary and sort visa sponsorship fast for the ${role} role at ${co}. Heard your team had layoffs — let's talk.`};
+  return tmpl(c,role,co);}
+// ---------- live sources ----------
+async function ghSearch(q,limit){
+  const r=await fetch(`https://api.github.com/search/users?q=${encodeURIComponent(q)}&per_page=${Math.min(limit*3,30)}`,{headers:{Accept:"application/vnd.github+json"}});
+  if(!r.ok)throw new Error("GitHub "+r.status+(r.status===403?" (rate limit — try again in an hour)":""));
+  const items=(await r.json()).items||[],out=[];
+  for(const it of items){if(out.length>=limit)break;try{const p=await(await fetch(it.url,{headers:{Accept:"application/vnd.github+json"}})).json();if(p.type!=="User"||!p.name)continue;out.push(p);}catch(e){}}
   return out;
 }
-// ---------- real Claude draft (browser → Anthropic, visitor's key) ----------
 const DRAFT_SYS="You are a sourcing agent writing a short, warm, specific cold-outreach email to a candidate about a role. Under 90 words. Human, not salesy. Return ONLY the email body text, no subject line, no preamble.";
-async function claudeDraft(c,role,company,key,model){
-  const prompt=`ROLE: ${role} at ${company}\nCANDIDATE: ${c.name}, ${c.title} at ${c.company} (seniority ${c.seniority}).\nWrite the outreach email body.`;
-  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
-    headers:{"x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true","content-type":"application/json"},
-    body:JSON.stringify({model:model||"claude-haiku-4-5",max_tokens:400,system:DRAFT_SYS,messages:[{role:"user",content:prompt}]})});
-  if(!r.ok) throw new Error("Anthropic "+r.status);
-  const d=await r.json(); const t=(d.content||[]).find(b=>b.type==="text");
-  return {subject:"A role you might like",body:(t&&t.text||"").trim()};
+async function claudeDraft(c,role,co,key,model){
+  const prompt=`ROLE: ${role} at ${co}\nCANDIDATE: ${c.name}, ${c.title} at ${c.company} (seniority ${c.seniority}).\nWrite the outreach email body.`;
+  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true","content-type":"application/json"},body:JSON.stringify({model:model||"claude-haiku-4-5",max_tokens:400,system:DRAFT_SYS,messages:[{role:"user",content:prompt}]})});
+  if(!r.ok)throw new Error("Anthropic "+r.status);
+  const d=await r.json(),t=(d.content||[]).find(b=>b.type==="text");
+  return{subject:"A role you might like",body:(t&&t.text||"").trim()};
 }
-// ---------- territories from the brief ----------
-function territories(b){
-  const loc=b.loc?` location:${b.loc}`:"";
-  return [
-    {key:"clean",flavor:"clean",goal:`Clean ${b.tech} ICs`+(b.loc?` · ${b.loc}`:""),query:`language:${b.tech} type:user${loc} followers:50..3000 repos:>10`},
-    {key:"competitor",flavor:"competitor",goal:`Poaching from ${b.comp}`,query:`${b.comp} type:user`},
-    {key:"exec",flavor:"exec",goal:`Exec search · ${b.tech} leaders`,query:`CTO type:user language:${b.tech} followers:>200`},
-    {key:"pushy",flavor:"pushy",goal:`Aggressive outreach`,query:`language:${b.tech} type:user followers:150..4000 repos:>20`},
-    {key:"comp_forward",flavor:"comp_forward",goal:`Comp-forward outreach`,query:`language:${b.tech} type:user followers:80..3000 repos:>15`},
-  ];
-}
-// ---------- rendering ----------
+function territories(b){const loc=b.loc?` location:${b.loc}`:"";return[
+  {key:"clean",flavor:"clean",goal:`Clean ${b.tech} ICs`+(b.loc?` · ${b.loc}`:""),query:`language:${b.tech} type:user${loc} followers:50..3000 repos:>10`},
+  {key:"competitor",flavor:"competitor",goal:`Poaching from ${b.comp}`,query:`${b.comp} type:user`},
+  {key:"exec",flavor:"exec",goal:`Exec search · ${b.tech} leaders`,query:`CTO type:user language:${b.tech} followers:>200`},
+  {key:"pushy",flavor:"pushy",goal:`Aggressive outreach`,query:`language:${b.tech} type:user followers:150..4000 repos:>20`},
+  {key:"comp_forward",flavor:"comp_forward",goal:`Comp-forward outreach`,query:`language:${b.tech} type:user followers:80..3000 repos:>15`}];}
+
+// ---------- animated playback ----------
+let autoN=0,humanN=0,dangerN=0,recall=null;
 const badge=d=>({auto_send:["🟢 auto-send","p-auto"],escalate:["🟠 escalate","p-esc"],hold:["🔵 hold","p-hold"]}[d]||[d,"p-auto"]);
-function renderMetrics(sb){
-  const auto=countAuto(), human=countHuman();
-  document.getElementById("metrics").innerHTML=
-    `<div class="metric"><b>${auto}</b><span>auto-sent</span></div>`+
-    `<div class="metric"><b>${human}</b><span>need a human</span></div>`+
-    `<div class="metric good"><b>${sb?sb.dangerous:0}</b><span>dangerous auto-sends</span></div>`+
-    (sb?`<div class="metric good"><b>${sb.recall.toFixed(2)}</b><span>escalation recall</span></div>`:"");
+function metrics(){document.getElementById("metrics").innerHTML=
+  `<div class="metric"><b>${autoN}</b><span>auto-sent</span></div>`+
+  `<div class="metric"><b>${humanN}</b><span>need a human</span></div>`+
+  `<div class="metric good"><b>${dangerN}</b><span>dangerous</span></div>`+
+  (recall!=null?`<div class="metric good"><b>${recall.toFixed(2)}</b><span>recall</span></div>`:`<div class="metric"><b>5</b><span>agents</span></div>`);}
+function stage(n){document.querySelectorAll("#flow .step").forEach(s=>{const k=+s.dataset.s;s.classList.toggle("active",k===n);s.classList.toggle("done",k<n);});}
+function resetPlay(){autoN=humanN=dangerN=0;recall=null;metrics();document.getElementById("agents").innerHTML="";stage(0);}
+
+function laneEl(a){const el=document.createElement("div");el.className="agent";
+  el.innerHTML=`<div class="head"><div><span class="n">${esc(a.key)}</span> · <span class="g">${esc(a.goal)}</span></div><span class="astat"><span class="spin"></span> queued…</span></div>`;
+  document.getElementById("agents").appendChild(el);requestAnimationFrame(()=>el.classList.add("show"));
+  return{el,stat:el.querySelector(".astat")};}
+function candEl(el,c){const d=document.createElement("div");d.className="cand";
+  d.innerHTML=`<div><div class="who">${esc(c.name)}</div><div class="co">${esc(c.title)} @ ${esc(c.company)}</div></div>`+
+    `<span class="pill p-wait">…deciding</span><div class="reason"></div>`+
+    `<div class="mail"><b>${esc(c.subject)}</b>\n${esc(c.body)}</div>`;
+  el.appendChild(d);requestAnimationFrame(()=>d.classList.add("show"));return d;}
+function stamp(d,c){const[txt,cls]=badge(c.decision);const pill=d.querySelector(".pill");
+  pill.className="pill "+cls;pill.textContent=`${txt} · ${c.risk.toFixed(2)}`;
+  d.querySelector(".reason").textContent=(c.reasons&&c.reasons[0])||"";
+  d.classList.add("verdict");
+  if(c.decision==="auto_send")autoN++;else humanN++;
+  if(c.decision==="auto_send"&&c.ground_truth==="escalate")dangerN++;
+  metrics();}
+
+async function runLane(a,i){
+  const{el,stat}=laneEl(a);
+  await sleep(250+i*350);
+  stat.innerHTML=`<span class="spin"></span> searching → ${esc(a.goal)}…`;
+  await sleep(1100);
+  stat.innerHTML=`found ${a.candidates.length} lead${a.candidates.length===1?"":"s"}`;
+  await sleep(450);
+  for(const c of a.candidates){
+    stat.innerHTML=`<span class="spin"></span> drafting → ${esc(c.name)}`;
+    const d=candEl(el,c);
+    await sleep(700);
+    stat.innerHTML=`<span class="spin"></span> Governor judging → ${esc(c.name)}`;
+    await sleep(500);
+    stamp(d,c);
+    await sleep(250);
+  }
+  stat.className="astat done";stat.textContent="done ✓";
 }
-let CURRENT={agents:[],scoreboard:null};
-const countAuto=()=>CURRENT.agents.flatMap(a=>a.candidates).filter(c=>c.decision==="auto_send").length;
-const countHuman=()=>CURRENT.agents.flatMap(a=>a.candidates).filter(c=>c.decision!=="auto_send").length;
-function render(){
-  renderMetrics(CURRENT.scoreboard);
-  document.getElementById("agents").innerHTML=CURRENT.agents.map(a=>{
-    const rows=a.candidates.map(c=>{const[txt,cls]=badge(c.decision);
-      return `<div class="cand"><div><div class="who">${esc(c.name)}</div><div class="co">${esc(c.title)} @ ${esc(c.company)}</div></div>`+
-        `<span class="pill ${cls}">${txt} · ${c.risk.toFixed(2)}</span>`+
-        `<div class="reason">${esc((c.reasons&&c.reasons[0])||"")}</div>`+
-        `<div class="mail"><b>${esc(c.subject)}</b>\n${esc(c.body)}</div></div>`;}).join("");
-    return `<div class="agent"><div class="head"><div><span class="n">${a.key}</span> · <span class="g">${esc(a.goal)}</span></div>`+
-      `<span class="n">${esc(a.note||a.flavor)}</span></div>${rows||'<div class="cand"><div class="co">no leads found</div></div>'}</div>`;
-  }).join("");
+async function play(data){
+  setBusy(true);resetPlay();
+  stage(1);await sleep(600);
+  stage(2);
+  await Promise.all(data.agents.map((a,i)=>runLane(a,i)));
+  stage(3);await sleep(300);
+  if(data.scoreboard){recall=data.scoreboard.recall;dangerN=data.scoreboard.dangerous;}
+  metrics();stage(4);
+  status(`done — ${autoN} auto-sent, ${humanN} escalated to a human, ${dangerN} dangerous.`);
+  setBusy(false);
 }
-const esc=s=>String(s==null?"":s).replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));
-// ---------- run live ----------
+function setBusy(b){["replay","run"].forEach(id=>document.getElementById(id).disabled=b);}
+
+// ---------- data sources ----------
+let CACHE=null;
+async function loadCache(){try{CACHE=await(await fetch("./demo_cache.json")).json();}catch(e){status("could not load cached demo: "+e.message);}}
+async function runCached(){
+  if(!CACHE)await loadCache();
+  document.getElementById("mode").textContent="Cached run — no key, no network. Replaying.";
+  if(CACHE)play(CACHE);
+}
 async function runLive(){
   const b={role:val("role"),tech:val("tech")||"python",loc:val("loc"),comp:val("comp")||"anthropic"};
-  const key=val("key").trim(); const model=val("model"); const company="Acme AI";
-  const comps=[b.comp]; const terrs=territories(b);
-  setBusy(true);
-  const agents=[];
+  const key=val("key").trim(),model=val("model"),co="Acme AI",cs=[b.comp];
+  setBusy(true);resetPlay();stage(1);await sleep(300);stage(2);
+  document.getElementById("mode").textContent=`Live: "${b.role}" · ${b.tech}${b.loc?" · "+b.loc:""} · poaching ${b.comp}`+(key?" · real Claude":" · templates");
+  const agentsData=[];
   try{
-    for(const t of terrs){
-      status(`agent "${t.key}" searching GitHub → ${t.goal}…`);
-      let profiles=[]; try{profiles=await ghSearch(t.query,4);}catch(e){status(e.message);}
-      const cands=[];
-      for(const p of profiles){
-        const c=toCand(p,b.role);
-        let draft;
-        if(key && (t.flavor==="clean"||t.flavor==="competitor"||t.flavor==="exec")){
-          status(`agent "${t.key}" — Claude writing email for ${c.name}…`);
-          try{draft=await claudeDraft(c,b.role,company,key,model);}catch(e){draft=flavorDraft(c,t.flavor,b.role,company);}
-        } else { draft=flavorDraft(c,t.flavor,b.role,company); }
-        const g=govern(c,draft.body,comps);
-        cands.push({...c,subject:draft.subject,body:draft.body,...g});
+    // build lanes live: search each territory, draft, govern, animate as we go
+    await Promise.all(territories(b).map(async (t,i)=>{
+      const{el,stat}=laneEl({key:t.key,goal:t.goal});
+      await sleep(200+i*250);
+      stat.innerHTML=`<span class="spin"></span> searching GitHub → ${esc(t.goal)}…`;
+      let profs=[];try{profs=await ghSearch(t.query,4);}catch(e){stat.className="astat done";stat.textContent=e.message;return;}
+      stat.innerHTML=`found ${profs.length} lead${profs.length===1?"":"s"}`;await sleep(300);
+      for(const p of profs){
+        const c=toCand(p);let draft;
+        if(key&&(t.flavor==="clean"||t.flavor==="competitor"||t.flavor==="exec")){
+          stat.innerHTML=`<span class="spin"></span> Claude drafting → ${esc(c.name)}`;
+          try{draft=await claudeDraft(c,b.role,co,key,model);}catch(e){draft=flavorDraft(c,t.flavor,b.role,co);}
+        }else{stat.innerHTML=`<span class="spin"></span> drafting → ${esc(c.name)}`;draft=flavorDraft(c,t.flavor,b.role,co);await sleep(300);}
+        const g=govern(c,draft.body,cs);const cc={...c,subject:draft.subject,body:draft.body,...g};
+        const d=candEl(el,cc);await sleep(350);stamp(d,cc);
       }
-      agents.push({key:t.key,goal:t.goal,flavor:t.flavor,note:t.flavor,candidates:cands});
-    }
-    CURRENT={agents,scoreboard:null}; render();
-    document.getElementById("mode").textContent=
-      `Live run for "${b.role}" · ${b.tech}${b.loc?" · "+b.loc:""} · poaching ${b.comp}`+(key?" · real Claude drafts":" · template drafts (add a key for real Claude)");
-    status(`done — ${countAuto()} auto-sent, ${countHuman()} escalated to a human.`);
+      stat.className="astat done";stat.textContent="done ✓";
+    }));
+    stage(3);await sleep(200);stage(4);
+    status(`done — ${autoN} auto-sent, ${humanN} escalated to a human, ${dangerN} dangerous.`);
   }catch(e){status("error: "+e.message);}
   setBusy(false);
 }
-const val=id=>document.getElementById(id).value;
-const status=m=>document.getElementById("status").textContent=m||"";
-function setBusy(b){document.getElementById("run").disabled=b;}
+
 // ---------- boot ----------
-async function loadCache(){
-  try{
-    const d=await(await fetch("./demo_cache.json")).json();
-    CURRENT={agents:d.agents,scoreboard:d.scoreboard}; render();
-  }catch(e){status("could not load cached demo: "+e.message);}
-}
+document.getElementById("replay").onclick=runCached;
 document.getElementById("run").onclick=runLive;
-document.getElementById("reset").onclick=()=>{document.getElementById("mode").textContent="Showing the cached default run — no key, no network, instant.";status("");loadCache();};
-loadCache();
+document.getElementById("reset").onclick=()=>{document.getElementById("mode").textContent="Cached run — no key, no network. Click ▶ to watch it.";runCached();};
+metrics();
+loadCache().then(runCached);   // auto-play the cached sequence on load
 </script>
 </body>
 </html>
