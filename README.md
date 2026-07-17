@@ -2,6 +2,12 @@
 
 **The oversight & eval layer for autonomous recruiting agents.**
 
+### ▶ Live demo: **https://turangenesis.github.io/governor-demo/**
+
+Loads instantly from a cached run (no key needed). Edit the hiring brief to run the 5 agents
+**live** against GitHub in your browser; optionally bring your own Anthropic API key for real
+Claude-written drafts (the key never leaves your browser).
+
 Five Fillmore-style sourcing agents each want to send cold outreach. The **Governor** — a
 plain-Python judgment layer (no LLM) — decides which sends fire autonomously and which a human
 recruiter must see, reserving scarce human attention for the calls that need judgment.
