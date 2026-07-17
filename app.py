@@ -110,12 +110,14 @@ with st.sidebar:
     st.divider()
     st.markdown("**Sponsors:** AWS Bedrock · Zero.xyz · Akash")
     if use_llm:
-        if os.environ.get("AWS_ACCESS_KEY_ID"):
-            st.success("🧠 Live Bedrock drafting ON — agents draft via real Claude "
-                       "(auto-falls back to prewritten drafts on any error).")
+        if os.environ.get("ANTHROPIC_API_KEY"):
+            st.success("🧠 Live drafting ON via **Anthropic API** — agents draft with real "
+                       "Claude (auto-falls back to templates on any error).")
+        elif os.environ.get("AWS_ACCESS_KEY_ID"):
+            st.success("🧠 Live drafting ON via **AWS Bedrock** — agents draft with real Claude.")
         else:
-            st.warning("Live LLM drafting is ON but AWS creds are missing — "
-                       "each agent will silently fall back to the prewritten draft.")
+            st.warning("Live LLM drafting is ON but no key found. Add ANTHROPIC_API_KEY "
+                       "(or AWS creds) to .env — otherwise agents fall back to templates.")
     if zero_mode == "real" and not os.environ.get("ZERO_API_URL"):
         st.warning("Zero real mode set but ZERO_API_URL missing — sends fall back to stub.")
 

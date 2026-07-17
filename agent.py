@@ -62,7 +62,28 @@ def _parse_json(text: str) -> dict:
 
 
 def make_llm():
-    """Real Bedrock LLM. Imported lazily so --dry works with zero AWS setup."""
+    """Real LLM. Two providers, chosen automatically (imported lazily so --dry needs nothing):
+
+      - Anthropic API  — if ANTHROPIC_API_KEY is set (simplest for a local demo; get a key at
+                         console.anthropic.com). This is a paid API key, NOT a claude.ai
+                         subscription — a subscription cannot be used by an app.
+      - AWS Bedrock    — otherwise (the hackathon sponsor path; needs AWS creds).
+
+    Override with LLM_PROVIDER=anthropic|bedrock.
+    """
+    provider = os.environ.get("LLM_PROVIDER", "").lower()
+    if not provider:
+        provider = "anthropic" if os.environ.get("ANTHROPIC_API_KEY") else "bedrock"
+
+    if provider == "anthropic":
+        from langchain_anthropic import ChatAnthropic
+
+        # No temperature: current Opus/Sonnet models reject sampling params.
+        return ChatAnthropic(
+            model=os.environ.get("ANTHROPIC_MODEL", "claude-opus-4-8"),
+            max_tokens=600,
+        )
+
     from langchain_aws import ChatBedrockConverse
 
     return ChatBedrockConverse(

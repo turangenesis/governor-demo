@@ -68,8 +68,13 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full system flow and 
 ## Runs fully offline
 
 The default demo needs **no credentials and no network** — candidate search replays from a
-local cache, drafting uses templates (no LLM), and sends are stubbed. Live services (AWS
-Bedrock drafting, real Zero.xyz sends) are strictly opt-in and never required.
+local cache, drafting uses templates (no LLM), and sends are stubbed. Live services (real
+Claude drafting, real Zero.xyz sends) are strictly opt-in and never required.
+
+**To have agents draft with real Claude:** add an `ANTHROPIC_API_KEY` (a paid key from
+[console.anthropic.com](https://console.anthropic.com) — not a claude.ai subscription, which
+apps can't use) to `.env`, then toggle **Live LLM drafting** on in the UI. AWS Bedrock works
+too — see `.env.example`. On any error it silently falls back to templates.
 
 ## Deploy a public demo (Streamlit Community Cloud)
 
