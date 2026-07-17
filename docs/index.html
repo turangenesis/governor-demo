@@ -19,136 +19,164 @@
     --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -18px rgba(0,0,0,.7);
   }}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1000px;margin:0 auto;padding:clamp(1.4rem,4vw,3rem) clamp(1rem,4vw,2rem) 4rem}
-  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent2);font-weight:600}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px;margin:0 auto;padding:clamp(1.2rem,4vw,2.4rem) clamp(1rem,4vw,2rem) 4rem}
+  .eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent2);font-weight:600}
   @media (prefers-color-scheme:dark){.eyebrow{color:var(--accent)}}
-  h1{font-size:clamp(2rem,5vw,3rem);line-height:1.05;margin:.4rem 0 .3rem;letter-spacing:-.02em}
-  .lede{color:var(--muted);max-width:62ch;margin:0}
-  .metrics{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem}
-  .metric{display:flex;flex-direction:column;gap:.1rem;padding:.55rem .9rem;border:1px solid var(--border);border-radius:11px;background:var(--surface);box-shadow:var(--shadow);min-width:92px}
-  .metric b{font-family:var(--mono);font-size:1.25rem;font-weight:600;transition:color .3s}
-  .metric span{font-size:.7rem;color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
+  h1{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.05;margin:.3rem 0 .3rem;letter-spacing:-.02em}
+  .lede{color:var(--muted);max-width:64ch;margin:0;font-size:.95rem}
+
+  /* controls */
+  .controls{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-top:1.2rem}
+  button{font:inherit;font-weight:650;border:none;border-radius:10px;padding:.55rem 1rem;cursor:pointer;background:var(--accent);color:#fff}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.ghost{background:var(--surface2);color:var(--ink);border:1px solid var(--border)}
+  .speed{display:inline-flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-left:.2rem}
+  .speed button{background:var(--surface);color:var(--muted);border:none;border-radius:0;padding:.5rem .7rem;font-size:.8rem;font-weight:600}
+  .speed button.on{background:var(--accent);color:#fff}
+  .status{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-left:.4rem;flex:1;min-width:180px}
+
+  /* stage pipeline */
+  .flow{display:flex;align-items:center;gap:.35rem;margin-top:1rem;flex-wrap:wrap}
+  .step{display:flex;align-items:center;gap:.45rem;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:.4rem .8rem;box-shadow:var(--shadow);opacity:.5;transition:opacity .35s,border-color .35s,background .35s}
+  .step.active{opacity:1;border-color:var(--accent);background:var(--accentsoft)}
+  .step.done{opacity:1}
+  .step .dot{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+  .step.active .dot{background:var(--accent)} .step.done .dot{background:var(--auto)}
+  .step .t{font-size:.8rem;font-weight:600}
+  .arrow{color:var(--faint);font-size:.8rem}
+  @media (max-width:640px){.arrow{display:none}}
+
+  /* metrics */
+  .metrics{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+  .metric{display:flex;flex-direction:column;gap:.05rem;padding:.5rem .85rem;border:1px solid var(--border);border-radius:11px;background:var(--surface);box-shadow:var(--shadow);min-width:88px}
+  .metric b{font-family:var(--mono);font-size:1.2rem;font-weight:600}
+  .metric span{font-size:.66rem;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
   .metric.good b{color:var(--auto)}
 
-  /* flow strip */
-  .flow{display:flex;align-items:stretch;gap:.4rem;margin-top:1.6rem;flex-wrap:wrap}
-  .step{flex:1;min-width:130px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.6rem .8rem;box-shadow:var(--shadow);opacity:.45;transition:opacity .4s,border-color .4s,transform .4s}
-  .step.active{opacity:1;border-color:var(--accent);transform:translateY(-2px)}
-  .step.done{opacity:1}
-  .step .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
-  .step .t{font-weight:650;font-size:.9rem;margin-top:.1rem}
-
-  .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.2rem;box-shadow:var(--shadow);margin-top:1.6rem}
-  .panel h2{font-size:1.05rem;margin:0 0 .2rem}
-  .panel .sub{color:var(--muted);font-size:.86rem;margin:0 0 1rem}
-  .cta{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin-top:1.4rem}
-  button{font:inherit;font-weight:650;border:none;border-radius:10px;padding:.65rem 1.2rem;cursor:pointer;background:var(--accent);color:#fff}
-  button:disabled{opacity:.5;cursor:progress}
-  button.ghost{background:var(--surface2);color:var(--ink);border:1px solid var(--border)}
-  .status{font-family:var(--mono);font-size:.82rem;color:var(--muted);min-height:1.2em;margin-top:.7rem}
-
-  .grid{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
-  label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);margin-bottom:.25rem;font-family:var(--mono)}
-  input,select{width:100%;padding:.5rem .6rem;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;font-size:.9rem}
-  input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
-  details{margin-top:.6rem} summary{cursor:pointer;font-size:.82rem;color:var(--accent2)}
-  @media (prefers-color-scheme:dark){summary{color:var(--accent)}}
-  .hint{font-size:.78rem;color:var(--faint);margin-top:.5rem}
-
-  .agents{display:grid;gap:.9rem;margin-top:1.6rem}
-  .agent{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s}
-  .agent.show{opacity:1;transform:none}
-  .agent .head{padding:.7rem 1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap}
-  .agent .head .g{font-weight:650}
-  .agent .head .n{font-family:var(--mono);font-size:.7rem;color:var(--faint)}
-  .astat{font-family:var(--mono);font-size:.74rem;color:var(--accent2);display:flex;align-items:center;gap:.4rem}
-  @media (prefers-color-scheme:dark){.astat{color:var(--accent)}}
-  .astat.done{color:var(--faint)}
-  .spin{width:11px;height:11px;border:2px solid var(--accentsoft);border-top-color:var(--accent);border-radius:50%;display:inline-block;animation:sp .7s linear infinite}
+  /* agent board */
+  .board{display:grid;gap:.6rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:1.1rem}
+  .acard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .8rem;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:border-color .3s}
+  .acard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--stripe,var(--faint));opacity:.5}
+  .acard.working{border-color:var(--accent)}
+  .acard.working::before{opacity:1}
+  .acard .an{font-family:var(--mono);font-size:.66rem;color:var(--faint)}
+  .acard .goal{font-weight:650;font-size:.86rem;line-height:1.25;margin:.1rem 0 .4rem}
+  .acard .st{font-family:var(--mono);font-size:.72rem;color:var(--accent2);display:flex;align-items:center;gap:.35rem;min-height:1.3em}
+  @media (prefers-color-scheme:dark){.acard .st{color:var(--accent)}}
+  .acard .st.done{color:var(--faint)}
+  .acard .tally{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:.45rem;display:flex;gap:.6rem}
+  .spin{width:10px;height:10px;border:2px solid var(--accentsoft);border-top-color:var(--accent);border-radius:50%;display:inline-block;animation:sp .7s linear infinite;flex:none}
   @keyframes sp{to{transform:rotate(360deg)}}
-  @media (prefers-reduced-motion:reduce){.spin{animation:none}.agent{transition:none}}
+  @media (prefers-reduced-motion:reduce){.spin{animation:none}}
 
-  .cand{padding:.7rem 1rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:.3rem .8rem;align-items:start;opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s}
-  .cand.show{opacity:1;transform:none}
-  .cand .who{font-weight:600;font-size:.92rem}
-  .cand .co{color:var(--muted);font-size:.8rem}
-  .cand .mail{grid-column:1/-1;font-size:.82rem;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .6rem;margin-top:.2rem;white-space:pre-wrap;max-height:0;overflow:hidden;transition:max-height .4s;padding-top:0;padding-bottom:0}
-  .cand.verdict .mail{max-height:260px;padding-top:.45rem;padding-bottom:.45rem}
-  .pill{font-family:var(--mono);font-size:.68rem;padding:.16rem .5rem;border-radius:7px;font-weight:600;white-space:nowrap;height:fit-content;opacity:0;transition:opacity .3s}
-  .cand.verdict .pill{opacity:1}
+  /* detail feed (scrolls inside itself) */
+  .feedwrap{margin-top:1.2rem;border:1px solid var(--border);border-radius:12px;background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+  .feedhead{padding:.5rem .9rem;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.72rem;color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
+  .feed{max-height:340px;overflow-y:auto;padding:.4rem .6rem}
+  .fitem{border-radius:9px;padding:.55rem .7rem;margin:.35rem .2rem;background:var(--bg);border:1px solid var(--border);opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s}
+  .fitem.show{opacity:1;transform:none}
+  .fitem .top{display:flex;justify-content:space-between;gap:.6rem;align-items:baseline;flex-wrap:wrap}
+  .fitem .who{font-weight:600;font-size:.88rem}
+  .fitem .co{color:var(--muted);font-size:.78rem}
+  .fitem .fag{font-family:var(--mono);font-size:.64rem;color:var(--faint)}
+  .fitem .mail{font-size:.8rem;color:var(--muted);margin-top:.35rem;white-space:pre-wrap;border-left:2px solid var(--border);padding-left:.6rem}
+  .fitem .reason{font-family:var(--mono);font-size:.68rem;color:var(--faint);margin-top:.3rem}
+  .pill{font-family:var(--mono);font-size:.68rem;padding:.14rem .5rem;border-radius:7px;font-weight:600;white-space:nowrap}
   .p-auto{color:var(--auto);background:var(--autosoft)} .p-esc{color:var(--esc);background:var(--escsoft)} .p-hold{color:var(--hold);background:var(--holdsoft)} .p-wait{color:var(--faint);background:var(--surface2)}
-  .reason{grid-column:1/-1;font-family:var(--mono);font-size:.7rem;color:var(--faint)}
 
-  .banner{font-size:.8rem;padding:.5rem .8rem;border-radius:9px;background:var(--accentsoft);color:var(--accent2);margin-top:1rem;font-family:var(--mono)}
-  @media (prefers-color-scheme:dark){.banner{color:var(--accent2)}}
-  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--border);color:var(--faint);font-size:.8rem;font-family:var(--mono)}
+  /* config */
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.2rem;box-shadow:var(--shadow);margin-top:1.6rem}
+  .panel h2{font-size:1rem;margin:0 0 .2rem}
+  .panel .sub{color:var(--muted);font-size:.84rem;margin:0 0 1rem}
+  .grid{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+  label{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);margin-bottom:.25rem;font-family:var(--mono)}
+  input,select{width:100%;padding:.5rem .6rem;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;font-size:.88rem}
+  input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .hint{font-size:.76rem;color:var(--faint);margin-top:.5rem}
+  .banner{font-size:.78rem;color:var(--faint);font-family:var(--mono);margin-top:.7rem}
+  footer{margin-top:2.4rem;padding-top:1.1rem;border-top:1px solid var(--border);color:var(--faint);font-size:.78rem;font-family:var(--mono)}
   a{color:var(--accent2)} @media (prefers-color-scheme:dark){a{color:var(--accent)}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <div class="eyebrow">Oversight &amp; eval layer · autonomous recruiting agents</div>
-    <h1>🛡️ The Governor</h1>
-    <p class="lede">One click fans out into five autonomous agents. Each sources real engineers
-      from GitHub for its own territory and drafts outreach — then a deterministic Governor
-      decides which sends a human must see. Watch it happen.</p>
-    <div class="metrics" id="metrics"></div>
-    <div class="flow" id="flow">
-      <div class="step" data-s="1"><div class="k">Trigger</div><div class="t">📋 Hiring brief</div></div>
-      <div class="step" data-s="2"><div class="k">Fan out</div><div class="t">🤖 5 agents source &amp; draft</div></div>
-      <div class="step" data-s="3"><div class="k">Judge</div><div class="t">🛡️ Governor decides</div></div>
-      <div class="step" data-s="4"><div class="k">Prove</div><div class="t">📊 0 dangerous</div></div>
-    </div>
-    <div class="cta">
-      <button id="replay">▶ Run the demo</button>
-      <span class="banner" id="mode" style="margin-top:0">Cached run — no key, no network. Click ▶ to watch it.</span>
-    </div>
-    <div class="status" id="status"></div>
-  </header>
+  <div class="eyebrow">Oversight &amp; eval layer · autonomous recruiting agents</div>
+  <h1>🛡️ The Governor</h1>
+  <p class="lede">One brief fans out into five autonomous agents. Each sources real engineers from
+    GitHub for its own territory and drafts outreach — then a deterministic Governor decides which
+    a human must see. Watch the board below; use the controls to pace it.</p>
 
-  <div class="agents" id="agents"></div>
+  <div class="controls">
+    <button id="play">▶ Run</button>
+    <button id="pause" class="ghost" disabled>⏸ Pause</button>
+    <div class="speed" role="group" aria-label="speed">
+      <button data-sp="1.8">Slow</button><button data-sp="1" class="on">Normal</button><button data-sp="0.5">Fast</button>
+    </div>
+    <span class="status" id="status">Ready — press ▶ Run.</span>
+  </div>
+
+  <div class="flow" id="flow">
+    <div class="step" data-s="1"><span class="dot"></span><span class="t">📋 Brief</span></div>
+    <span class="arrow">→</span>
+    <div class="step" data-s="2"><span class="dot"></span><span class="t">🔍 Source</span></div>
+    <span class="arrow">→</span>
+    <div class="step" data-s="3"><span class="dot"></span><span class="t">✍️ Draft</span></div>
+    <span class="arrow">→</span>
+    <div class="step" data-s="4"><span class="dot"></span><span class="t">🛡️ Govern</span></div>
+    <span class="arrow">→</span>
+    <div class="step" data-s="5"><span class="dot"></span><span class="t">📊 Proven</span></div>
+  </div>
+
+  <div class="metrics" id="metrics"></div>
+  <div class="board" id="board"></div>
+
+  <div class="feedwrap">
+    <div class="feedhead" id="feedhead">Decisions will appear here as the Governor judges each draft</div>
+    <div class="feed" id="feed"></div>
+  </div>
 
   <div class="panel">
-    <h2>Point it anywhere — edit the brief</h2>
-    <p class="sub">This is the trigger. Editing it runs the 5 agents <b>live</b> against GitHub in
-      your browser (free, no key). Add your own Anthropic key for real Claude-written emails.</p>
+    <h2>Point it anywhere — this is the trigger</h2>
+    <p class="sub">Editing the brief and pressing ▶ Run runs the 5 agents <b>live</b> against GitHub
+      in your browser (free, no key). Add your Anthropic key for real Claude-written emails.</p>
     <div class="grid">
       <div><label>Role</label><input id="role" value="Senior Backend Engineer"></div>
       <div><label>Tech / language</label><input id="tech" value="python"></div>
       <div><label>Location (optional)</label><input id="loc" value="london"></div>
       <div><label>Competitor to poach from</label><input id="comp" value="anthropic"></div>
     </div>
-    <details>
-      <summary>🔑 Optional: your own Anthropic API key for real Claude-written emails</summary>
-      <div style="margin-top:.6rem">
-        <label>API key (stays in your browser — sent only to api.anthropic.com)</label>
-        <input id="key" type="password" placeholder="sk-ant-…  (blank = template drafts)">
-        <div style="margin-top:.6rem"><label>Model (any key works with any model)</label>
-          <select id="model">
-            <option value="claude-haiku-4-5">Claude Haiku 4.5 — cheapest (~a fraction of a cent)</option>
-            <option value="claude-sonnet-5">Claude Sonnet 5 — balanced</option>
-            <option value="claude-opus-4-8">Claude Opus 4.8 — best, priciest</option>
-          </select></div>
-        <div class="hint">Never stored or sent to this site's owner. Billed to your key. Haiku is plenty.</div>
-      </div>
-    </details>
-    <div class="cta">
-      <button id="run">▶ Run agents live</button>
-      <button id="reset" class="ghost">Back to cached demo</button>
+    <div class="grid" style="margin-top:.7rem">
+      <div style="grid-column:1/-1"><label>🔑 Anthropic API key — optional (stays in your browser; sent only to api.anthropic.com)</label>
+        <input id="key" type="password" placeholder="sk-ant-…   leave blank for template drafts"></div>
+      <div><label>Model</label><select id="model">
+        <option value="claude-haiku-4-5">Haiku 4.5 — cheapest</option>
+        <option value="claude-sonnet-5">Sonnet 5 — balanced</option>
+        <option value="claude-opus-4-8">Opus 4.8 — best</option>
+      </select></div>
     </div>
+    <div class="hint">Your key is never stored or sent to this site's owner. Billed to your key; Haiku is a fraction of a cent per email.</div>
+    <div class="controls" style="margin-top:1rem">
+      <button id="runlive">▶ Run agents live</button>
+      <button id="cached" class="ghost">Replay cached demo</button>
+    </div>
+    <div class="banner" id="mode">Showing the cached run — no key, no network.</div>
   </div>
 
-  <footer>
-    Governor = deterministic Python (ported to JS) · agents source real GitHub profiles ·
-    <a href="https://github.com/turangenesis/governor-demo">source</a>
-  </footer>
+  <footer>Governor = deterministic Python (ported to JS) · agents source real GitHub profiles ·
+    <a href="https://github.com/turangenesis/governor-demo">source</a></footer>
 </div>
 
 <script>
 const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
-const sleep=ms=>RM?Promise.resolve():new Promise(r=>setTimeout(r,ms));
+let SPEED=1, PAUSED=false, RUN=0;
+// pausable + speed-aware + cancellable sleep
+function sleep(ms){return new Promise(res=>{
+  if(RM)return res();
+  let left=ms*SPEED;
+  const step=()=>{ if(PAUSED){setTimeout(step,120);return;} left-=120; if(left<=0)return res(); setTimeout(step,120); };
+  setTimeout(step,120);
+});}
 const esc=s=>String(s==null?"":s).replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));
 const val=id=>document.getElementById(id).value;
 const status=m=>document.getElementById("status").textContent=m||"";
@@ -202,117 +230,118 @@ async function claudeDraft(c,role,co,key,model){
   const d=await r.json(),t=(d.content||[]).find(b=>b.type==="text");
   return{subject:"A role you might like",body:(t&&t.text||"").trim()};
 }
+const STRIPE={clean:"var(--auto)",competitor:"var(--esc)",exec:"var(--esc)",pushy:"var(--esc)",comp_forward:"var(--esc)"};
 function territories(b){const loc=b.loc?` location:${b.loc}`:"";return[
-  {key:"clean",flavor:"clean",goal:`Clean ${b.tech} ICs`+(b.loc?` · ${b.loc}`:""),query:`language:${b.tech} type:user${loc} followers:50..3000 repos:>10`},
+  {key:"clean",flavor:"clean",goal:`Clean ${b.tech} engineers`+(b.loc?` · ${b.loc}`:""),query:`language:${b.tech} type:user${loc} followers:50..3000 repos:>10`},
   {key:"competitor",flavor:"competitor",goal:`Poaching from ${b.comp}`,query:`${b.comp} type:user`},
   {key:"exec",flavor:"exec",goal:`Exec search · ${b.tech} leaders`,query:`CTO type:user language:${b.tech} followers:>200`},
   {key:"pushy",flavor:"pushy",goal:`Aggressive outreach`,query:`language:${b.tech} type:user followers:150..4000 repos:>20`},
   {key:"comp_forward",flavor:"comp_forward",goal:`Comp-forward outreach`,query:`language:${b.tech} type:user followers:80..3000 repos:>15`}];}
 
-// ---------- animated playback ----------
+// ---------- shared UI ----------
 let autoN=0,humanN=0,dangerN=0,recall=null;
-const badge=d=>({auto_send:["🟢 auto-send","p-auto"],escalate:["🟠 escalate","p-esc"],hold:["🔵 hold","p-hold"]}[d]||[d,"p-auto"]);
+const badge=d=>({auto_send:["🟢 auto-send","p-auto"],escalate:["🟠 escalate","p-esc"]}[d]||[d,"p-auto"]);
 function metrics(){document.getElementById("metrics").innerHTML=
   `<div class="metric"><b>${autoN}</b><span>auto-sent</span></div>`+
   `<div class="metric"><b>${humanN}</b><span>need a human</span></div>`+
   `<div class="metric good"><b>${dangerN}</b><span>dangerous</span></div>`+
   (recall!=null?`<div class="metric good"><b>${recall.toFixed(2)}</b><span>recall</span></div>`:`<div class="metric"><b>5</b><span>agents</span></div>`);}
 function stage(n){document.querySelectorAll("#flow .step").forEach(s=>{const k=+s.dataset.s;s.classList.toggle("active",k===n);s.classList.toggle("done",k<n);});}
-function resetPlay(){autoN=humanN=dangerN=0;recall=null;metrics();document.getElementById("agents").innerHTML="";stage(0);}
-
-function laneEl(a){const el=document.createElement("div");el.className="agent";
-  el.innerHTML=`<div class="head"><div><span class="n">${esc(a.key)}</span> · <span class="g">${esc(a.goal)}</span></div><span class="astat"><span class="spin"></span> queued…</span></div>`;
-  document.getElementById("agents").appendChild(el);requestAnimationFrame(()=>el.classList.add("show"));
-  return{el,stat:el.querySelector(".astat")};}
-function candEl(el,c){const d=document.createElement("div");d.className="cand";
-  d.innerHTML=`<div><div class="who">${esc(c.name)}</div><div class="co">${esc(c.title)} @ ${esc(c.company)}</div></div>`+
-    `<span class="pill p-wait">…deciding</span><div class="reason"></div>`+
-    `<div class="mail"><b>${esc(c.subject)}</b>\n${esc(c.body)}</div>`;
-  el.appendChild(d);requestAnimationFrame(()=>d.classList.add("show"));return d;}
-function stamp(d,c){const[txt,cls]=badge(c.decision);const pill=d.querySelector(".pill");
-  pill.className="pill "+cls;pill.textContent=`${txt} · ${c.risk.toFixed(2)}`;
+function boardCards(agents){document.getElementById("board").innerHTML=agents.map((a,i)=>
+  `<div class="acard" id="ac${i}" style="--stripe:${STRIPE[a.flavor]||'var(--faint)'}">
+     <div class="an">agent-${i+1}</div><div class="goal">${esc(a.goal)}</div>
+     <div class="st" id="st${i}">queued…</div>
+     <div class="tally" id="ty${i}"><span>— leads</span><span>🟢 0</span><span>🟠 0</span></div>
+   </div>`).join("");}
+function setSt(i,html,working){const c=document.getElementById("ac"+i),s=document.getElementById("st"+i);if(!c)return;
+  c.classList.toggle("working",!!working);s.className="st"+(working?"":" done");s.innerHTML=html;}
+function tally(i,leads,a,e){const t=document.getElementById("ty"+i);if(t)t.innerHTML=`<span>${leads} leads</span><span>🟢 ${a}</span><span>🟠 ${e}</span>`;}
+function feedItem(c,agentKey){const feed=document.getElementById("feed");
+  const d=document.createElement("div");d.className="fitem";
+  d.innerHTML=`<div class="top"><div><span class="who">${esc(c.name)}</span> <span class="co">— ${esc(c.title)} @ ${esc(c.company)}</span></div><span class="pill p-wait">…deciding</span></div>`+
+    `<div class="reason"></div><div class="mail"><b>${esc(c.subject)}</b>\n${esc(c.body)}</div><div class="fag">${esc(agentKey)}</div>`;
+  feed.appendChild(d);requestAnimationFrame(()=>{d.classList.add("show");feed.scrollTop=feed.scrollHeight});return d;}
+function stampItem(d,c){const[txt,cls]=badge(c.decision);const p=d.querySelector(".pill");p.className="pill "+cls;p.textContent=`${txt} · ${c.risk.toFixed(2)}`;
   d.querySelector(".reason").textContent=(c.reasons&&c.reasons[0])||"";
-  d.classList.add("verdict");
   if(c.decision==="auto_send")autoN++;else humanN++;
-  if(c.decision==="auto_send"&&c.ground_truth==="escalate")dangerN++;
-  metrics();}
+  if(c.decision==="auto_send"&&c.ground_truth==="escalate")dangerN++;metrics();}
+function resetRun(agents){autoN=humanN=dangerN=0;recall=null;metrics();stage(0);
+  document.getElementById("feed").innerHTML="";
+  document.getElementById("feedhead").textContent="Decisions appear here as the Governor judges each draft";
+  boardCards(agents);}
+function setBusy(b){document.getElementById("play").disabled=b;document.getElementById("runlive").disabled=b;document.getElementById("cached").disabled=b;
+  document.getElementById("pause").disabled=!b;}
 
-async function runLane(a,i){
-  const{el,stat}=laneEl(a);
-  await sleep(250+i*350);
-  stat.innerHTML=`<span class="spin"></span> searching → ${esc(a.goal)}…`;
-  await sleep(1100);
-  stat.innerHTML=`found ${a.candidates.length} lead${a.candidates.length===1?"":"s"}`;
-  await sleep(450);
-  for(const c of a.candidates){
-    stat.innerHTML=`<span class="spin"></span> drafting → ${esc(c.name)}`;
-    const d=candEl(el,c);
-    await sleep(700);
-    stat.innerHTML=`<span class="spin"></span> Governor judging → ${esc(c.name)}`;
-    await sleep(500);
-    stamp(d,c);
-    await sleep(250);
-  }
-  stat.className="astat done";stat.textContent="done ✓";
-}
-async function play(data){
-  setBusy(true);resetPlay();
-  stage(1);await sleep(600);
-  stage(2);
-  await Promise.all(data.agents.map((a,i)=>runLane(a,i)));
-  stage(3);await sleep(300);
-  if(data.scoreboard){recall=data.scoreboard.recall;dangerN=data.scoreboard.dangerous;}
-  metrics();stage(4);
-  status(`done — ${autoN} auto-sent, ${humanN} escalated to a human, ${dangerN} dangerous.`);
+// ---------- cached playback ----------
+async function playCached(data){
+  const my=++RUN;PAUSED=false;setPauseLabel();setBusy(true);
+  resetRun(data.agents);stage(1);await sleep(900);if(my!==RUN)return;stage(2);
+  let done=0;
+  await Promise.all(data.agents.map(async (a,i)=>{
+    await sleep(300+i*500);if(my!==RUN)return;
+    setSt(i,`<span class="spin"></span> searching GitHub…`,true);await sleep(1600);if(my!==RUN)return;
+    setSt(i,`found ${a.candidates.length} leads`,true);tally(i,a.candidates.length,0,0);await sleep(700);
+    let ac=0,ec=0;
+    for(const c of a.candidates){ if(my!==RUN)return;
+      stage(3);setSt(i,`<span class="spin"></span> drafting → ${esc(c.name)}`,true);
+      const d=feedItem(c,`agent-${i+1} · ${a.key}`);await sleep(1100);if(my!==RUN)return;
+      stage(4);setSt(i,`<span class="spin"></span> Governor judging → ${esc(c.name)}`,true);await sleep(800);if(my!==RUN)return;
+      stampItem(d,c); if(c.decision==="auto_send")ac++;else ec++; tally(i,a.candidates.length,ac,ec);
+      await sleep(500);
+    }
+    setSt(i,"done ✓",false);done++;
+    document.getElementById("feedhead").textContent=`${done}/${data.agents.length} agents finished`;
+  }));
+  if(my!==RUN)return;
+  if(data.scoreboard){recall=data.scoreboard.recall;dangerN=data.scoreboard.dangerous;}metrics();stage(5);
+  status(`Done — ${autoN} auto-sent, ${humanN} escalated to a human, ${dangerN} dangerous.`);
   setBusy(false);
 }
-function setBusy(b){["replay","run"].forEach(id=>document.getElementById(id).disabled=b);}
-
-// ---------- data sources ----------
-let CACHE=null;
-async function loadCache(){try{CACHE=await(await fetch("./demo_cache.json")).json();}catch(e){status("could not load cached demo: "+e.message);}}
-async function runCached(){
-  if(!CACHE)await loadCache();
-  document.getElementById("mode").textContent="Cached run — no key, no network. Replaying.";
-  if(CACHE)play(CACHE);
-}
-async function runLive(){
+// ---------- live playback ----------
+async function playLive(){
+  const my=++RUN;PAUSED=false;setPauseLabel();setBusy(true);
   const b={role:val("role"),tech:val("tech")||"python",loc:val("loc"),comp:val("comp")||"anthropic"};
-  const key=val("key").trim(),model=val("model"),co="Acme AI",cs=[b.comp];
-  setBusy(true);resetPlay();stage(1);await sleep(300);stage(2);
+  const key=val("key").trim(),model=val("model"),co="Acme AI",cs=[b.comp],terrs=territories(b);
+  resetRun(terrs);stage(1);await sleep(500);if(my!==RUN)return;stage(2);
   document.getElementById("mode").textContent=`Live: "${b.role}" · ${b.tech}${b.loc?" · "+b.loc:""} · poaching ${b.comp}`+(key?" · real Claude":" · templates");
-  const agentsData=[];
-  try{
-    // build lanes live: search each territory, draft, govern, animate as we go
-    await Promise.all(territories(b).map(async (t,i)=>{
-      const{el,stat}=laneEl({key:t.key,goal:t.goal});
-      await sleep(200+i*250);
-      stat.innerHTML=`<span class="spin"></span> searching GitHub → ${esc(t.goal)}…`;
-      let profs=[];try{profs=await ghSearch(t.query,4);}catch(e){stat.className="astat done";stat.textContent=e.message;return;}
-      stat.innerHTML=`found ${profs.length} lead${profs.length===1?"":"s"}`;await sleep(300);
-      for(const p of profs){
-        const c=toCand(p);let draft;
-        if(key&&(t.flavor==="clean"||t.flavor==="competitor"||t.flavor==="exec")){
-          stat.innerHTML=`<span class="spin"></span> Claude drafting → ${esc(c.name)}`;
-          try{draft=await claudeDraft(c,b.role,co,key,model);}catch(e){draft=flavorDraft(c,t.flavor,b.role,co);}
-        }else{stat.innerHTML=`<span class="spin"></span> drafting → ${esc(c.name)}`;draft=flavorDraft(c,t.flavor,b.role,co);await sleep(300);}
-        const g=govern(c,draft.body,cs);const cc={...c,subject:draft.subject,body:draft.body,...g};
-        const d=candEl(el,cc);await sleep(350);stamp(d,cc);
-      }
-      stat.className="astat done";stat.textContent="done ✓";
-    }));
-    stage(3);await sleep(200);stage(4);
-    status(`done — ${autoN} auto-sent, ${humanN} escalated to a human, ${dangerN} dangerous.`);
-  }catch(e){status("error: "+e.message);}
+  let done=0;
+  await Promise.all(terrs.map(async (t,i)=>{
+    await sleep(250+i*400);if(my!==RUN)return;
+    setSt(i,`<span class="spin"></span> searching GitHub…`,true);
+    let profs=[];try{profs=await ghSearch(t.query,4);}catch(e){setSt(i,esc(e.message),false);return;}
+    if(my!==RUN)return; setSt(i,`found ${profs.length} leads`,true);tally(i,profs.length,0,0);await sleep(500);
+    let ac=0,ec=0;
+    for(const p of profs){ if(my!==RUN)return;
+      const c=toCand(p);let draft;stage(3);
+      if(key&&(t.flavor==="clean"||t.flavor==="competitor"||t.flavor==="exec")){
+        setSt(i,`<span class="spin"></span> Claude drafting → ${esc(c.name)}`,true);
+        try{draft=await claudeDraft(c,b.role,co,key,model);}catch(e){draft=flavorDraft(c,t.flavor,b.role,co);}
+      }else{setSt(i,`<span class="spin"></span> drafting → ${esc(c.name)}`,true);draft=flavorDraft(c,t.flavor,b.role,co);await sleep(700);}
+      if(my!==RUN)return;
+      const g=govern(c,draft.body,cs),cc={...c,subject:draft.subject,body:draft.body,...g};
+      const d=feedItem(cc,`agent-${i+1} · ${t.key}`);await sleep(500);
+      stage(4);setSt(i,`<span class="spin"></span> Governor judging → ${esc(c.name)}`,true);await sleep(700);if(my!==RUN)return;
+      stampItem(d,cc); if(cc.decision==="auto_send")ac++;else ec++; tally(i,profs.length,ac,ec);await sleep(400);
+    }
+    setSt(i,"done ✓",false);done++;document.getElementById("feedhead").textContent=`${done}/${terrs.length} agents finished`;
+  }));
+  if(my!==RUN)return;stage(5);
+  status(`Done — ${autoN} auto-sent, ${humanN} escalated to a human, ${dangerN} dangerous.`);
   setBusy(false);
 }
-
-// ---------- boot ----------
-document.getElementById("replay").onclick=runCached;
-document.getElementById("run").onclick=runLive;
-document.getElementById("reset").onclick=()=>{document.getElementById("mode").textContent="Cached run — no key, no network. Click ▶ to watch it.";runCached();};
+// ---------- controls ----------
+function setPauseLabel(){document.getElementById("pause").textContent=PAUSED?"▶ Resume":"⏸ Pause";}
+let CACHE=null;
+async function loadCache(){try{CACHE=await(await fetch("./demo_cache.json")).json();}catch(e){status("could not load cache: "+e.message);}}
+document.getElementById("play").onclick=async()=>{if(!CACHE)await loadCache();document.getElementById("mode").textContent="Cached run — no key, no network.";if(CACHE)playCached(CACHE);};
+document.getElementById("cached").onclick=document.getElementById("play").onclick;
+document.getElementById("runlive").onclick=playLive;
+document.getElementById("pause").onclick=()=>{PAUSED=!PAUSED;setPauseLabel();status(PAUSED?"Paused.":"Running…");};
+document.querySelectorAll(".speed button").forEach(btn=>btn.onclick=()=>{
+  SPEED=+btn.dataset.sp;document.querySelectorAll(".speed button").forEach(x=>x.classList.remove("on"));btn.classList.add("on");});
+// boot: show the 5 agents idle, load cache, don't auto-run (let the human press ▶)
 metrics();
-loadCache().then(runCached);   // auto-play the cached sequence on load
+loadCache().then(()=>{if(CACHE)boardCards(CACHE.agents);});
 </script>
 </body>
 </html>
