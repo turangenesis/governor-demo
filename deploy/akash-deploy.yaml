@@ -1,0 +1,52 @@
+# Akash SDL — deploys The Governor Streamlit app.
+#
+# Steps:
+#   1. Build + push the image to a PUBLIC registry:
+#        docker build -t <you>/governor-demo:latest .
+#        docker push <you>/governor-demo:latest
+#      (Akash pulls the image; it must be publicly accessible.)
+#   2. Replace `image:` below with your pushed tag.
+#   3. Provide secrets via env (AWS_*, ZERO_*) — either bake NON-secret defaults here,
+#      or better: keep ZERO_MODE=stub for the public deploy and demo real sends locally.
+#      Do NOT commit real keys into this file.
+#   4. Deploy via Akash Console (console.akash.network) or CLI, fund with a little AKT,
+#      accept a bid, then read the exposed URL from the lease.
+---
+version: "2.0"
+
+services:
+  governor:
+    image: DOCKERHUB_USER/governor-demo:latest   # <-- replace
+    expose:
+      - port: 8501
+        as: 80
+        to:
+          - global: true
+    env:
+      - ZERO_MODE=stub
+      - AWS_REGION=us-east-1
+      # For a live-AWS public deploy, inject AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY
+      # through the Akash console's env (not committed here). Keep them scoped Bedrock-only.
+
+profiles:
+  compute:
+    governor:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 1Gi
+        storage:
+          size: 2Gi
+  placement:
+    dcloud:
+      pricing:
+        governor:
+          denom: uakt
+          amount: 10000
+
+deployment:
+  governor:
+    dcloud:
+      profile: governor
+      count: 1

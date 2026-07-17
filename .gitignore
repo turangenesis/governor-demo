@@ -1,0 +1,37 @@
+# Secrets — NEVER commit
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Local scratch
+scratch/
+*.log
+
+# Discovery caches (regenerate with discover.py / the "Discover" buttons)
+# NOTE: if you want a PUBLIC deploy to replay offline, you must COMMIT these instead
+# (remove these 3 lines). For a labeled-default public demo they aren't needed.
+cache_*.json
+discovered_candidates.json
+discovered_*.json
+
+# Claude Code local settings
+.claude/
+
+# PRIVATE working docs — hiring strategy + personal email. Keep local, NEVER push.
+CLAUDE.md
+docs/HANDOFF.md
+docs/PLAN.md
+docs/SETUP.md
+docs/DEMO_SCRIPT.md
